@@ -3,8 +3,14 @@ simple zsh git prompt using libgit2 for speed 🚀
 
 ## install
 
+Be sure to have libgit2 installed!
+
+### OSX
 ```sh
+brew install libgit2
 git clone git@github.com:avetisk/zsh-git-prompt.git path/to/opt
+cd /path/to/opt/zsh-git-prompt
+pip install -r requirements.txt
 ```
 
 Then in your `.zshrc`:
