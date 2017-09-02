@@ -105,14 +105,18 @@ def reduce_flags(xs, x):
 
 
 file_diffs = reduce(reduce_flags, items, initial)
-head = (repo.head.shorthand
-        if not repo.head_is_detached
-        else repo.head.target.hex[:7])
-upstream = repo.branches.get(
-    repo.head.shorthand).upstream if not repo.head_is_detached else None
-ahead_behind = repo.ahead_behind(
-    repo.head.target, upstream.target) if upstream else (0, 0)
-branch_name = formats['head'](repo, head, ahead_behind)
+
+if repo.head_is_unborn:
+    branch_name = colorize('red')(' \?\?\? ')
+else:
+    head = (repo.head.shorthand
+            if not repo.head_is_detached
+            else repo.head.target.hex[:7])
+    upstream = repo.branches.get(
+        repo.head.shorthand).upstream if not repo.head_is_detached else None
+    ahead_behind = repo.ahead_behind(
+        repo.head.target, upstream.target) if upstream else (0, 0)
+    branch_name = formats['head'](repo, head, ahead_behind)
 
 status = '{} {}'.format(
     branch_name,
