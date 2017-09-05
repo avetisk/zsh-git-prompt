@@ -77,8 +77,8 @@ formats = {
 
 try:
     worktree = pygit2.discover_repository(os.getcwd())
-except Error:
-    print('err')
+except Exception:
+    print(colorize('black')('', ' - '))
     sys.exit()
 
 repo = pygit2.Repository(worktree)
