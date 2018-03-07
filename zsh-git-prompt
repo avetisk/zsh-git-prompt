@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import os
 import sys
 import pygit2
@@ -44,7 +44,7 @@ colorize_info = colorize('blue')
 colorize_warn = colorize('red')
 order = ['head', 'staged', 'unstaged', 'conflicted'][::-1]
 errors = {
-    'not_git_repo': '%{{$fg[black]$bg[white]%}} ø git %{{${{reset_color}}%}}',
+    'not_git_repo': '%{{$fg[black]$bg[white]%}} \xc3 git %{{${{reset_color}}%}}',
 }
 formats = {
     'staged': lambda count:
