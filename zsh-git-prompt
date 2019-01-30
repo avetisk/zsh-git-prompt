@@ -26,12 +26,13 @@ GIT_STATUS_IGNORED = 1 << 14
 GIT_STATUS_CONFLICTED = 1 << 15
 
 
-def colorize(color):
+def colorize(color, fg_color = 'black'):
     return lambda first_str, second_str = '': (
-        '%{{$fg[black]$bg[{color}]%}}{first_str}%{{${{reset_color}}%}}'
+        '%{{$fg[{fg_color}]$bg[{color}]%}}{first_str}%{{${{reset_color}}%}}'
         '%{{$fg[black]$bg[white]%}}{second_str}%{{${{reset_color}}%}}'
     ).format(**{
         'color': str(color),
+        'fg_color': str(fg_color),
         'first_str': str(first_str),
         'second_str': str(second_str)})
 
@@ -40,7 +41,7 @@ def format_default(value):
     return ' {} '.format(str(value))
 
 
-colorize_info = colorize('blue')
+colorize_info = colorize('blue', 'white')
 colorize_warn = colorize('red')
 order = ['head', 'staged', 'unstaged', 'conflicted'][::-1]
 errors = {
@@ -69,7 +70,7 @@ formats = {
         )),
     'head': lambda repo, head, ahead_behind:
         ' {}{} '.format(
-            colorize('green' if not repo.head_is_detached else 'red')(
+            colorize('green' if not repo.head_is_detached else 'red', 'white' if repo.head_is_detached else 'black')(
                 ' {} '.format(head)
             ),
             formats['upstream'](ahead_behind)),
@@ -78,7 +79,7 @@ formats = {
             colorize('green' if not repo.head_is_detached else 'red')(
                 ' {} '.format(head)
             ),
-            colorize('red')(' NFS ')
+            colorize('red', 'white')(' NFS ')
         )
 }
 
@@ -91,7 +92,8 @@ except Exception:
 repo = pygit2.Repository(worktree)
 
 if repo.head_is_unborn:
-    branch_name = colorize('red')(' \?\?\? ')
+    print(' {} '.format(colorize('white')(' \?\?\? ')))
+    sys.exit()
 else:
     head = (repo.head.shorthand
             if not repo.head_is_detached else repo.head.target.hex[:7])
