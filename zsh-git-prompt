@@ -89,6 +89,10 @@ except Exception:
     print(colorize('black')('', ' - '))
     sys.exit()
 
+if worktree is None:
+    print(colorize('black')('', ' - '))
+    sys.exit()
+
 repo = pygit2.Repository(worktree)
 
 if repo.head_is_unborn:
